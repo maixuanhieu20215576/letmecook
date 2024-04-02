@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Tahoma&display=swap');
+
+/* Áp dụng font chữ Tahoma cho toàn bộ nội dung trang web */
+body {
+    font-family: 'Tahoma', sans-serif;
+    color : white;
+   }
+/* Homepage.css */
+/* Homepage.css */
+
+/* Lớp chứa hình ảnh nền */
+.backgroundImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Đặt z-index thấp hơn để nền không che phủ nội dung */
+    background-image: url('./image/cook.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Làm tối hình ảnh nền */
+.backgroundImage::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+}
+
+  .present {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+  font-style: oblique ;
+    font-size:  25px;
+    transform: translateY(30vh);
+    padding-left: 10vh;
+    padding-right: 10vh;
+  }
+  .navbar { 
+    background-color: black;
+    height: 10vh;
+    display: flex;
+  }
+  .navbar .logo { 
+    max-height: 10vh;
+    
+  }
+  .add {
+    max-height: 8vh;
+    transform: translateY(1vh);
+   background-color: tomato !important;
+    
+  }
+  
+ .login { 
+    max-height: 8vh;
+  transform:  translateY(1vh) translateX(25vw);
+  
+ }
+ #modal-modal-title {
+  color: brown;
+ }
+ #modal-modal-description {
+  color: brown;
+ }
+ #username #password{
+margin: 3px;
+padding: 3px;
+ }
