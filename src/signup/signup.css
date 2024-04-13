@@ -1,0 +1,40 @@
+
+.bgimage{
+    background-image: url('../image/signupbg.jpg');
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Đặt z-index thấp hơn để nền không che phủ nội dung */
+    background-size: cover;
+    background-position: center;
+}
+.signupbox { 
+    
+background-color: aliceblue;
+padding: 1%;
+width: 25vw;
+transform: translateX(35vw)  translateY(30vh) !important;;
+
+border-radius: 10px;
+display: grid;
+place-items:  center;
+}
+h1 { 
+    text-align: center;
+    color: rgb(110, 27, 27);
+}
+#button {
+ margin-bottom: 1vh;
+ margin-top: 2vh;
+}
+.field { 
+    width: 21vw;
+}
+#myCanvas {
+    width: 20vw;/* Chiều rộng của canvas */
+    height: 1px; /* Chiều cao của canvas */
+ 
+    background-color: rgb(80, 14, 14); /* Màu nền xám nhạt */
+}

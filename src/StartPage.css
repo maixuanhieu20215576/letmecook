@@ -16,7 +16,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1; /* Đặt z-index thấp hơn để nền không che phủ nội dung */
-    background-image: url('./image/cook.png');
+    background-image: url('./image/home.png');
     background-size: cover;
     background-position: center;
 }
@@ -44,6 +44,7 @@ body {
     background-color: black;
     height: 10vh;
     display: flex;
+    
   }
   .navbar .logo { 
     max-height: 10vh;

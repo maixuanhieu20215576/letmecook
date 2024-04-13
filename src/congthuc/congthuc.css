@@ -1,0 +1,35 @@
+.foodimg {
+    max-width: 50vw;
+    max-height: 50vh;
+    border-radius: 10px;
+    padding-left: 5vw;
+    padding-top: 5vh;
+  
+}
+
+.box {
+    padding-top: 2vh;
+    padding-left: 5vw;
+}
+.tenmon {
+    color: black !important;
+    font-weight: bold !important;
+    font-size: large !important;
+    padding-left: 3vw !important;
+}
+.nguyenlieu {
+   
+       padding-left: 2vw;
+}
+
+p { font-weight:  bold; font-size: larger; color: black;}
+.likebutton {
+    padding-top: 2.5vh !important;
+    padding-bottom: 2.5vh !important;
+    margin-left: 3vw !important;
+  position: fixed !important;
+}
+.divider {
+   padding-top: 2vh;
+    padding-bottom: 2vh;
+}
