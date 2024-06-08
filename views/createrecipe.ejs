@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header') -%>
+    <body>
+        <%- include('layouts/navbar') -%>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('../img/create.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1 style="font-size: 10vh;">Tạo công thức mới</h1>
+                            <span class="subheading">Chia sẻ công thức tuyệt vời của chính bạn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-8 col-md-10 mx-auto">
+            <form action="/recipe/store" method="POST" enctype="multipart/form-data">
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh">
+                    <label>Tên món</label>
+                    <input type="text" class="form-control" placeholder="Tên món ăn của bạn..." id="name" name='name'>
+                    </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh">
+                        <label>Số thực khách</label>
+                        <input type="number" class="form-control" placeholder="Số thực khách" id="number" name='number'>
+                        </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh">
+                            <label>Thời gian (phút) </label>
+                            <input type="number" class="form-control" placeholder="Thời gian thực hiện..." id="time" name='time'>
+                            </div>
+                            </div>
+            <div class="control-group">
+            <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh">
+            <label>Nguyên liệu</label>
+            <input type="text" class="form-control" placeholder="Cà chua: 3, Cà rốt: 5,..." id="ingredient" name='ingredient'>
+            </div>
+            </div>
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh">
+                <label>Mô tả</label>
+                <input type="text" class="form-control" placeholder="Giới thiệu về món ăn" id="description" name='description'>
+                </div>
+                </div>
+            <div class="control-group">
+            <div class="form-group floating-label-form-group controls" style="margin-bottom: 3vh;">
+            <label>Công thức</label>
+            <textarea rows="6" class="form-control" id="recipe" placeholder="Recipe..." name='recipe'></textarea>
+            </div>
+            </div>
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                <label>Ảnh minh họa</label>
+                <input type="file" class="form-control" id='image' name='image'>
+                </div>
+                </div>
+            <br>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="sendMessageButton">Tạo công thức</button>
+            </div>
+        <!-- Footer-->
+        <%- include('layouts/footer') -%>
+        <!-- Bootstrap core JS-->
+        <%- include('layouts/scripts') -%>
+    </body>
+</html>

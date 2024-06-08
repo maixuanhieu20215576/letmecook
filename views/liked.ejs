@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header') -%>
+    <body>
+        <%- include('layouts/navbar') -%>
+        <header
+        class="masthead"
+        style="background-image: url('/img/love.jpg');"
+      >
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1 style="font-size: 10vh;">Yêu thích</h1>
+                    <span class="subheading">Những món ăn khiến bạn mê mẩn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+      </header>
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+               <div class="col-lg-12 col-md-10 mx-auto" >
+                <% 
+                for (var i=output.length-1;i>=0;i--) { %>
+                    <div class="post-preview">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="/recipe/<%= output[i].id %>">
+                                    <img src="<%= output[i].image %>" class="img-fluid" alt="Recipe Image">
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <a href="/recipe/<%= output[i].id %>">
+                                    <h2 class="post-title">
+                                        <%= output[i].name %> 
+                                    </h2>
+                                    <h6 class="post-subtitle" style="font-weight:200;">
+                                        <%= output[i].description %>
+                                    </h6>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <% } %>
+               </div>
+        <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+    </body>
+</html>

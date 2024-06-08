@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<%- include('layouts/header'); -%>
+<body>
+  <!-- Navigation-->
+  <%- include('layouts/navbar'); -%>
+  <!-- Page Header-->
+  <header
+    class="masthead"
+    style="background-image: url('<%=detailRecipe.image %>');"
+  >
+    <div class="container position-relative px-4 px-lg-5" >
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="post-heading">
+            <h1><%= detailRecipe.name %></h1>
+            <p class="subheading" style="font-weight: 200; font-size: larger;"><%= detailRecipe.description %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Nguyên liệu-->
+  <div class="mb-4" >
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Khẩu phần dành cho</th>
+                <td scope="col"><%= detailRecipe.number %> người
+                  <span class="material-icons">
+                    diversity_3
+                  </span></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Thời gian chế biến</th>
+                <td><%= detailRecipe.time %> phút <span class="material-icons">
+                  timer
+                </span></td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <h3> Nguyên liệu </h3>
+          <p><%= detailRecipe.ingredient %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!-- Công thức-->
+  <div class="mb-4">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <h3> Công thức: </h3>
+          <r>
+            <% detailRecipe.recipe.split('\n').forEach(function(line) { %>
+              <p><%= line %></p>
+            <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Button cố định -->
+  <% if (loggedIn) { %>
+  <% if (isliked==false) {%>
+    <div class="fixed-top" style="transform: translateX(8vw) translateY(20vh);">
+      <button class="btn btn-danger" style="border-radius: 5px;" id="liked" name="liked" type="button">
+        THÍCH
+      </button>
+      
+    </div>
+  <% } %>
+  <% if (isliked==true) {%>
+    <div class="fixed-top" style="transform: translateX(8vw) translateY(20vh);">
+      <button class="btn btn-success" style="border-radius:5px ;" id="liked" name="liked" type="button">
+       ĐÃ THÍCH
+      </button>
+    </div>
+  <% } %>
+  <script>
+    let button = document.getElementById('liked');
+     isliked = <%= isliked %> ;
+    button.addEventListener("click", myFunction);
+    function myFunction() {
+      if (!isliked) {
+        
+        button.className='btn btn-success';
+        button.innerHTML = "ĐÃ THÍCH";
+        isliked = true;
+        fetch('/recipe/liked', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId: '<%= loggedIn %>', recipeId: '<%= detailRecipe._id %>' ,isliked: 'true'}),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      }
+      else {
+        button.innerHTML = "THÍCH";
+        button.className='btn btn-danger';
+        isliked = false;
+        fetch('/recipe/liked', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId: '<%= loggedIn %>', recipeId: '<%= detailRecipe._id %>',isliked:'false' }),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      }
+    }
+  </script>
+  <% } %>
+  <!-- Footer-->
+  <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+</body>
+</html>

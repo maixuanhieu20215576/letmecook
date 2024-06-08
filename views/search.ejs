@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+  <body>
+    <!-- Navigation-->
+    <%- include('layouts/navbar'); -%>
+    <header class="masthead" style="background-image: url('./img/search.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2 style="font-size: 7vh;">Tìm kiếm công thức</h2>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <form action="/search" method="POST">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+    <div class="input-group mb-3">
+       
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" name="input">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Tìm kiếm theo</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item" name="ingre" id="ingre">Tên nguyên liệu</button></li>
+          <li><button class="dropdown-item" name="food" id="food">Tên món</button></li>
+         
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" name="nlsc"  id="nlsc">Nguyên liệu sẵn có</button></li>
+        </ul>
+        
+      </div>
+      </div>
+      </div>
+    
+    
+            
+    </body>
+    <%- include('layouts/footer'); -%>
+    <%- include('layouts/scripts'); -%>
+</html>

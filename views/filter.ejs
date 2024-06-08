@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+  <body>
+    <!-- Navigation-->
+    <%- include('layouts/navbar'); -%>
+    <header class="masthead" style="background-image: url('./img/search.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2 style="font-size: 7vh;">Tìm kiếm công thức</h2>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <form action="/search" method="POST">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+    <div class="input-group mb-3">
+       
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" name="input">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Tìm kiếm theo</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item" name="ingre" id="sendMessageButton">Tên nguyên liệu</button></li>
+          <li><button class="dropdown-item" name="food" id="sendMessageButton">Tên món</button></li>
+         
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" name="nlsc" id="sendMessageButton">Nguyên liệu sẵn có</button></li>
+        </ul>
+        
+      </div>
+      </div>
+      </div>
+      
+      
+      
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+               <!-- Bộ lọc-->
+               <div class="col-lg-12 col-md-10 mx-auto" >
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                       Bộ lọc
+                       <i class="fa-solid fa-filter"></i>
+                      </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                      <div class="d-flex justify-content-between">
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="time">
+                            Thời gian
+                            <i class="fa-regular fa-clock"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="notime">None</a></li>
+
+                            <li><a class="dropdown-item" id="quick">Nhanh (0-15 phút)</a></li>
+                            <li><a class="dropdown-item" id="medium">Vừa (15-45 phút)</a></li>
+                            <li><a class="dropdown-item" id="long">Lâu (Hơn 45 phút)</a></li>
+                          </ul>
+                        </div>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="khauphan">
+                            Khẩu phần
+                            <i class="fa-solid fa-utensils"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="nonumber" >None</a></li>
+                            <li><a class="dropdown-item" id="1-2">1-2 người</a></li>
+                            <li><a class="dropdown-item" id="3-6">3-6 người</a></li>
+                            <li><a class="dropdown-item" id="6">Hơn 6 người</a></li>
+                          </ul>
+                        </div>
+                        <button type="button" class="btn btn-outline-success" id="apply">Áp dụng bộ lọc <i class="fa-solid fa-check"></i></button>
+
+                    </div>
+                    </div>
+                  </div>            
+                    <hr>
+                <% for (var i=0 ;i<filteredRecipes.length;i++) { %>
+                    <div class="post-preview">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="/recipe/<%=filteredRecipes[i].id %>">
+                                    <img src="<%=filteredRecipes[i].image %>" class="img-fluid" alt="Recipe Image">
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <a href="/recipe/<%=filteredRecipes[i].id %>">
+                                    <h2 class="post-title">
+                                        <%= filteredRecipes[i].name %> 
+                                    </h2>
+                                    <h6 class="post-subtitle" style="font-weight:200;">
+                                        <%= filteredRecipes[i].description %>
+                                    </h6>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <% } %>
+               </div>
+            
+    </body>
+    <%- include('layouts/footer'); -%>
+    <%- include('layouts/scripts'); -%>
+</html>
+<script>
+    // Khai báo biến xử lý 
+   let timeOption =0;
+   let numberOption = 0;
+    let apply = document.getElementById("apply");
+    // Xử lý hiển thị filter Khẩu phần
+    let khauphan = document.getElementById('khauphan');
+    let _12 = document.getElementById('1-2');
+    let _36  = document.getElementById('3-6'); 
+     let _6  = document.getElementById('6');
+     let nonumber  = document.getElementById('nonumber');
+
+     _12.addEventListener("click", function() {
+    khauphan.innerHTML = '1-2 người';
+    numberOption =1 ;
+   
+});
+_36.addEventListener("click", function() {
+    khauphan.innerHTML = '3-6 người';
+ numberOption =2;
+});
+_6.addEventListener("click", function() {
+    khauphan.innerHTML = '> 6 người';
+   numberOption=3
+});
+nonumber.addEventListener("click", function() {
+    khauphan.innerHTML = 'None';
+   numberOption=0;
+});
+ // Xử lý hiển thị thời gian
+ let time= document.getElementById('time');
+let quick= document.getElementById('quick');
+let medium= document.getElementById('medium');
+let long= document.getElementById('long');
+let notime= document.getElementById('notime');
+quick.addEventListener("click", function() {
+    time.innerHTML = 'Nhanh (0-15 phút)';
+   timeOption=1;
+});
+medium.addEventListener("click", function() {
+    time.innerHTML = 'Vừa (15-45 phút)';
+    timeOption = 2; 
+});
+long.addEventListener("click", function() {
+    time.innerHTML = 'Lâu (Hơn 45 phút)';
+   timeOption=3;
+});
+notime.addEventListener("click", function() {
+    time.innerHTML = 'None';
+   timeOption=0;
+});
+apply.addEventListener("click",function(){
+fetch('/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timeOption: timeOption , numberOption: numberOption}),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      
+        });
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include('layouts/header'); -%>
+       <body>
+        <!-- Navigation-->
+     <%- include('layouts/navbar'); -%>
+        <!-- Page Header-->
+      <%  if(!loggedIn) { %>
+        <header class="masthead" style="background-image: url('./img/home-bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Let Me Cook</h1>
+                            <span class="subheading">Nơi thỏa mãn niềm đam mê ẩm thực !</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+  <% } %>
+  <%  if(loggedIn) { %>
+    <header class="masthead" style="background-image: url('./img/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Welcome back  </h1>
+                        <span class="subheading">Tiếp tục đồng hành cùng Let Me Cook nhé !</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+<% } %>
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                   <div class="col-lg-12 col-md-10 mx-auto" >
+                    <% 
+                    for (var i=recipes.length-1;i>=0;i--) { %>
+                        <div class="post-preview">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="/recipe/<%= recipes[i].id %>">
+                                        <img src="<%= recipes[i].image %>" class="img-fluid" alt="Recipe Image">
+                                    </a>
+                                </div>
+                                <div class="col-md-8">
+                                    <a href="/recipe/<%= recipes[i].id %>">
+                                        <h2 class="post-title">
+                                            <%= recipes[i].name %> 
+                                        </h2>
+                                        <h6 class="post-subtitle" style="font-weight:200;">
+                                            <%= recipes[i].description %>
+                                        </h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <% } %>
+                   </div>
+                    <!-- Divider-->
+                    <script>
+                        document.getElementById("olderButton").addEventListener("click", function() {
+                          // Gửi yêu cầu AJAX đến đường dẫn mong muốn khi nút được nhấp
+                          var xhr = new XMLHttpRequest();
+                          xhr.open("POST", "/loadmore", true);
+                          xhr.setRequestHeader("Content-Type", "application/json");
+                          xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                              // Nạp lại trang với dữ liệu mới từ máy chủ
+                              window.location.reload();
+                            }
+                          };
+                          xhr.send(JSON.stringify({ older: true }));
+                        });
+                      </script>
+                      
+                    
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                   <!-- <div class="d-flex justify-content-end mb-4"><button class="btn btn-primary text-uppercase" name= "older" >Older Posts →</button></div>
+               -->
+                </div>
+            </div>
+        </div>
+        <!-- Footer-->
+        <%- include('layouts/footer'); -%>
+        <!-- Bootstrap core JS-->
+        <%- include('layouts/scripts'); -%>
+    </body>
+</html>
