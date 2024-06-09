@@ -16,7 +16,11 @@ const searchController = require("./controllers/search");
 const likeRecipeController = require("./controllers/likeRecipe");
 const LikedRecipeController = require("./controllers/liked");
 const User = require('./models/User.js')
+const path = require('path');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static("public"));
 app.use(
   expressSession({
@@ -106,4 +110,11 @@ app.get("/search", (request, response) => {
 });
 
 app.post("/search", searchController);
+app.use("/search", searchController);
+app.get('/result', (req, res) => {
+  let filteredRecipes = JSON.parse(decodeURIComponent(req.query.filteredRecipes));
+  res.render('result', { filteredRecipes });
+});
+
+
 app.use((req, res) => res.render("notfound"));

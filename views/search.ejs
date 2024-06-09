@@ -16,21 +16,67 @@
             </div>
         </div>
     </header>
-    <form action="/search" method="POST">
+
+
+    <form>
     <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
     <div class="input-group mb-3">
        
-        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" name="input">
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" >
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Tìm kiếm theo</button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><button class="dropdown-item" name="ingre" id="ingre">Tên nguyên liệu</button></li>
-          <li><button class="dropdown-item" name="food" id="food">Tên món</button></li>
+          <li><button class="dropdown-item"  id="ingre">Tên nguyên liệu</button></li>
+          <li><button class="dropdown-item"  id="food">Tên món</button></li>
          
           <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" name="nlsc"  id="nlsc">Nguyên liệu sẵn có</button></li>
         </ul>
         
+        <hr> 
+        <div class="col-lg-12 col-md-12 mx-auto" >
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+               Bộ lọc
+               <i class="fa-solid fa-filter"></i>
+              </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <div class="d-flex justify-content-left">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="time">
+                    Thời gian
+                    <i class="fa-regular fa-clock"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="notime">None</a></li>
+
+                    <li><a class="dropdown-item" id="quick">Nhanh (0-15 phút)</a></li>
+                    <li><a class="dropdown-item" id="medium">Vừa (15-45 phút)</a></li>
+                    <li><a class="dropdown-item" id="long">Lâu (Hơn 45 phút)</a></li>
+                  </ul>
+                </div>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="khauphan" style="margin-left: 5vw;">
+                    Khẩu phần
+                    <i class="fa-solid fa-utensils"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="nonumber" >None</a></li>
+                    <li><a class="dropdown-item" id="1-2">1-2 người</a></li>
+                    <li><a class="dropdown-item" id="3-6">3-6 người</a></li>
+                    <li><a class="dropdown-item" id="6">Hơn 6 người</a></li>
+                  </ul>
+                </div>
+                
+
+            </div>
+            </div>
+          </div>            
+            <hr>
+      </div>
+      
       </div>
       </div>
       </div>
@@ -41,3 +87,105 @@
     <%- include('layouts/footer'); -%>
     <%- include('layouts/scripts'); -%>
 </html>
+
+<script>
+    // Khai báo biến xử lý 
+   let timeOption =0;
+   let numberOption = 0;
+    // Xử lý hiển thị filter Khẩu phần
+    let khauphan = document.getElementById('khauphan');
+    let _12 = document.getElementById('1-2');
+    let _36  = document.getElementById('3-6'); 
+     let _6  = document.getElementById('6');
+     let nonumber  = document.getElementById('nonumber');
+
+     _12.addEventListener("click", function() {
+    khauphan.innerHTML = '1-2 người';
+    numberOption =1 ;
+   
+});
+_36.addEventListener("click", function() {
+    khauphan.innerHTML = '3-6 người';
+ numberOption =2;
+});
+_6.addEventListener("click", function() {
+    khauphan.innerHTML = '> 6 người';
+   numberOption=3
+});
+nonumber.addEventListener("click", function() {
+    khauphan.innerHTML = 'None';
+   numberOption=0;
+});
+ // Xử lý hiển thị thời gian
+ let time= document.getElementById('time');
+let quick= document.getElementById('quick');
+let medium= document.getElementById('medium');
+let long= document.getElementById('long');
+let notime= document.getElementById('notime');
+quick.addEventListener("click", function() {
+    time.innerHTML = 'Nhanh (0-15 phút)';
+   timeOption=1;
+});
+medium.addEventListener("click", function() {
+    time.innerHTML = 'Vừa (15-45 phút)';
+    timeOption = 2; 
+});
+long.addEventListener("click", function() {
+    time.innerHTML = 'Lâu (Hơn 45 phút)';
+   timeOption=3;
+});
+notime.addEventListener("click", function() {
+    time.innerHTML = 'None';
+   timeOption=0;
+});
+let input = document.getElementById("input");
+let ingre = document.getElementById("ingre");
+ingre.addEventListener("click",function(){
+
+fetch('/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timeOption: timeOption , numberOption: numberOption, ingre: input.value}),
+        })
+          .then(response => {
+          
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      
+        });
+
+        let food = document.getElementById("food");
+        food.addEventListener("click",function(){
+        fetch('/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timeOption: timeOption , numberOption: numberOption, nlsc: input.value}),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      
+        });
+</script>
