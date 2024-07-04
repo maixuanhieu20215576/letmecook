@@ -11,7 +11,8 @@ module.exports = async (req, res) => {
         req.session.userId = user._id;
         res.redirect("/");
       } else {
-        res.redirect("/auth/login");
+        
+        res.render("login", {err : 1 });
       }
     }
   } catch (error) {

@@ -75,7 +75,7 @@ app.use(fileUpload());
 // Đăng ký
 app.get("/auth/register", newUserController);
 const storeUserController = require("./controllers/storeUser");
-app.post("/users/register", storeUserController);
+app.post("/users/register", storeUserController); 
 
 // Đăng nhập
 app.get("/auth/login", loginController);
@@ -111,10 +111,7 @@ app.get("/search", (request, response) => {
 
 app.post("/search", searchController);
 app.use("/search", searchController);
-app.get('/result', (req, res) => {
-  let filteredRecipes = JSON.parse(decodeURIComponent(req.query.filteredRecipes));
-  res.render('result', { filteredRecipes });
-});
+
 
 
 app.use((req, res) => res.render("notfound"));

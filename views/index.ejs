@@ -25,7 +25,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>Welcome back  </h1>
+                        <h1>Welcome back !  </h1>
                         <span class="subheading">Tiếp tục đồng hành cùng Let Me Cook nhé !</span>
                     </div>
                 </div>
@@ -33,16 +33,19 @@
         </div>
     </header>
 <% } %>
+       
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h2 style="color: rgba(198, 0, 0, 0.99);"> Thử tài với những món ăn dưới đây nhé!  </h2>
+                    <br>
                     <!-- Post preview-->
                    <div class="col-lg-12 col-md-10 mx-auto" >
                     <% 
-                    for (var i=recipes.length-1;i>=0;i--) { %>
+                    for (var i=recipes.length-1;i>=recipes.length - 11;i--) { %>
                         <div class="post-preview">
-                            <div class="row">
+                            <div class="row"> 
                                 <div class="col-md-4">
                                     <a href="/recipe/<%= recipes[i].id %>">
                                         <img src="<%= recipes[i].image %>" class="img-fluid" alt="Recipe Image">
@@ -50,12 +53,13 @@
                                 </div>
                                 <div class="col-md-8">
                                     <a href="/recipe/<%= recipes[i].id %>">
-                                        <h2 class="post-title">
+                                        <h2 class="post-title"  style="color: rgba(135, 60, 6, 0.99);">
                                             <%= recipes[i].name %> 
                                         </h2>
                                         <h6 class="post-subtitle" style="font-weight:200;">
-                                            <%= recipes[i].description %>
+                                            <%= recipes[i].description.substring(0,150) + '...' %>
                                         </h6>
+                                        
                                     </a>
                                 </div>
                             </div>
@@ -64,21 +68,7 @@
                         <% } %>
                    </div>
                     <!-- Divider-->
-                    <script>
-                        document.getElementById("olderButton").addEventListener("click", function() {
-                          // Gửi yêu cầu AJAX đến đường dẫn mong muốn khi nút được nhấp
-                          var xhr = new XMLHttpRequest();
-                          xhr.open("POST", "/loadmore", true);
-                          xhr.setRequestHeader("Content-Type", "application/json");
-                          xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                              // Nạp lại trang với dữ liệu mới từ máy chủ
-                              window.location.reload();
-                            }
-                          };
-                          xhr.send(JSON.stringify({ older: true }));
-                        });
-                      </script>
+                    
                       
                     
                     <hr class="my-4" />

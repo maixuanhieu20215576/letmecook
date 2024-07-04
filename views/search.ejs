@@ -18,21 +18,20 @@
     </header>
 
 
-    <form>
+    <form method="post" id="searchForm" action="/search">
     <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
     <div class="input-group mb-3">
-       
-        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" >
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" name="input" required >
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Tìm kiếm theo</button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><button class="dropdown-item"  id="ingre">Tên nguyên liệu</button></li>
-          <li><button class="dropdown-item"  id="food">Tên món</button></li>
+          <li><button class="dropdown-item"  id="ingre" name="ingre" onclick="setSearchType('ingre')">Tên nguyên liệu</button></li>
+          <li><button class="dropdown-item"  id="food" name="food" onclick="setSearchType('food')">Tên món</button></li>
          
-          <li><hr class="dropdown-divider"></li>
-          <li><button class="dropdown-item" name="nlsc"  id="nlsc">Nguyên liệu sẵn có</button></li>
+   
+          
         </ul>
-        
+         
         <hr> 
         <div class="col-lg-12 col-md-12 mx-auto" >
         <p class="d-inline-flex gap-1">
@@ -50,11 +49,11 @@
                     <i class="fa-regular fa-clock"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="notime">None</a></li>
+                    <li><a class="dropdown-item" id="notime" onclick="setTime('none')">None</a></li>
 
-                    <li><a class="dropdown-item" id="quick">Nhanh (0-15 phút)</a></li>
-                    <li><a class="dropdown-item" id="medium">Vừa (15-45 phút)</a></li>
-                    <li><a class="dropdown-item" id="long">Lâu (Hơn 45 phút)</a></li>
+                    <li><a class="dropdown-item" id="quick" name="quick" onclick="setTime('quick')">Nhanh (0-15 phút)</a></li>
+                    <li><a class="dropdown-item" id="medium" name="medium" onclick="setTime('medium')">Vừa (15-45 phút)</a></li>
+                    <li><a class="dropdown-item" id="long" name="long" onclick="setTime('long')">Lâu (Hơn 45 phút)</a></li>
                   </ul>
                 </div>
                 <div class="dropdown">
@@ -63,10 +62,10 @@
                     <i class="fa-solid fa-utensils"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="nonumber" >None</a></li>
-                    <li><a class="dropdown-item" id="1-2">1-2 người</a></li>
-                    <li><a class="dropdown-item" id="3-6">3-6 người</a></li>
-                    <li><a class="dropdown-item" id="6">Hơn 6 người</a></li>
+                    <li><a class="dropdown-item" id="nonumber" onclick="setNumber('none')" >None</a></li>
+                    <li><a class="dropdown-item" id="1-2"  onclick="setNumber('12')">1-2 người</a></li>
+                    <li><a class="dropdown-item" id="3-6"  onclick="setNumber('36')">3-6 người</a></li>
+                    <li><a class="dropdown-item" id="6"  onclick="setNumber('6')">Hơn 6 người</a></li>
                   </ul>
                 </div>
                 
@@ -76,7 +75,9 @@
           </div>            
             <hr>
       </div>
-      
+            <input type="hidden" id="searchType" name="searchType">
+            <input type="hidden" id="timeFilter" name="timeFilter">
+            <input type="hidden" id="numberFilter" name="numberFilter">
       </div>
       </div>
       </div>
@@ -89,6 +90,18 @@
 </html>
 
 <script>
+  function setSearchType(type) {
+    document.getElementById('searchType').value = type;
+    document.getElementById('searchForm').submit();
+}
+
+function setTime(time) {
+    document.getElementById('timeFilter').value = time;
+    
+}
+function setNumber(number) {
+  document.getElementById('numberFilter').value = number;
+}
     // Khai báo biến xử lý 
    let timeOption =0;
    let numberOption = 0;
@@ -138,54 +151,59 @@ notime.addEventListener("click", function() {
     time.innerHTML = 'None';
    timeOption=0;
 });
-let input = document.getElementById("input");
-let ingre = document.getElementById("ingre");
-ingre.addEventListener("click",function(){
-
-fetch('/search', {
-          method: 'POST',
-          headers: {
+/*let ingre = document.getElementById("ingre");
+let food = document.getElementById("food");
+ingre.addEventListener('click', function (event) {
+  event.preventDefault();
+  const data = submitForm('ingre');
+});
+food.addEventListener('click', function (event) {
+  event.preventDefault();
+  const data = submitForm('food');
+})
+function submitForm(searchType) {
+    let input = document.getElementById('input').value;
+    fetch('/search', {
+        method: 'POST',
+        headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ timeOption: timeOption , numberOption: numberOption, ingre: input.value}),
-        })
-          .then(response => {
-          
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.text();
-          })
-          .then(data => {
-            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
-          })
-          .catch(error => {
-            console.error('There was an error!', error);
-          });
-      
-        });
-
-        let food = document.getElementById("food");
-        food.addEventListener("click",function(){
-        fetch('/search', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ timeOption: timeOption , numberOption: numberOption, nlsc: input.value}),
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.text();
-          })
-          .then(data => {
-            console.log(data); // Hiển thị thông báo từ máy chủ (nếu cần)
-          })
-          .catch(error => {
-            console.error('There was an error!', error);
-          });
-      
-        });
+        },
+        body: JSON.stringify({
+            timeOption: timeOption,
+            numberOption: numberOption,
+            [searchType]: input
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // Assuming server responds with JSON
+    })
+    .then(data => {
+      if (data) {
+        console.log(data);
+      fetch('/result', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filteredRecipes: data.result }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        window.location.href = '/result';
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+    }
+    })
+    .catch(error => {
+        console.error('There was an error!', error);
+    });
+}
+*/
 </script>

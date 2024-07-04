@@ -1,3 +1,4 @@
 module.exports=(req,res) => {
-    res.render('register')
+    let err = 0 ; 
+    res.render('register', {err:err});
 }

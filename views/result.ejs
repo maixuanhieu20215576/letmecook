@@ -10,39 +10,182 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
                         <h2 style="font-size: 7vh;">Kết quả tìm kiếm</h2>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </header>
+    <form method="post" id="searchForm" action="/search">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" id="input" name="input" required  >
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Tìm kiếm theo</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><button class="dropdown-item"  id="ingre" name="ingre" onclick="setSearchType('ingre')">Tên nguyên liệu</button></li>
+              <li><button class="dropdown-item"  id="food" name="food" onclick="setSearchType('food')">Tên món</button></li>
+             
+       
+              
+            </ul>
+             
+            <hr> 
+            <div class="col-lg-12 col-md-12 mx-auto" >
+            <p class="d-inline-flex gap-1">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                   Bộ lọc
+                   <i class="fa-solid fa-filter"></i>
+                  </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <div class="d-flex justify-content-left">
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="time">
+                        Thời gian
+                        <i class="fa-regular fa-clock"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="notime" onclick="setTime('none')">None</a></li>
+    
+                        <li><a class="dropdown-item" id="quick" name="quick" onclick="setTime('quick')">Nhanh (0-15 phút)</a></li>
+                        <li><a class="dropdown-item" id="medium" name="medium" onclick="setTime('medium')">Vừa (15-45 phút)</a></li>
+                        <li><a class="dropdown-item" id="long" name="long" onclick="setTime('long')">Lâu (Hơn 45 phút)</a></li>
+                      </ul>
+                    </div>
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="khauphan" style="margin-left: 5vw;">
+                        Khẩu phần
+                        <i class="fa-solid fa-utensils"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="nonumber" onclick="setNumber('none')" >None</a></li>
+                        <li><a class="dropdown-item" id="1-2"  onclick="setNumber('12')">1-2 người</a></li>
+                        <li><a class="dropdown-item" id="3-6"  onclick="setNumber('36')">3-6 người</a></li>
+                        <li><a class="dropdown-item" id="6"  onclick="setNumber('6')">Hơn 6 người</a></li>
+                      </ul>
+                    </div>
+                    
+    
+                </div>
+                </div>
+              </div>            
+                <hr>
+          </div>
+                <input type="hidden" id="searchType" name="searchType">
+                <input type="hidden" id="timeFilter" name="timeFilter">
+                <input type="hidden" id="numberFilter" name="numberFilter">
+          </div>
+          </div>
+          </div>
+        
+        
+                
     
                     <hr>
-                <% for (var i=0 ;i<filteredRecipes.length;i++) { %>
-                    <div class="post-preview">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a href="/recipe/<%=filteredRecipes[i].id %>">
-                                    <img src="<%=filteredRecipes[i].image %>" class="img-fluid" alt="Recipe Image">
-                                </a>
+                    <div class="container px-4 px-lg-5">
+                        <div class="row gx-4 gx-lg-5 justify-content-center">
+                            <div class="col-md-10 col-lg-8 col-xl-7">
+                                <% if (filteredRecipes.length == 0) { %>
+                                    <h3 style="padding-left: 11vw;">Không có kết quả phù hợp</h3>
+                                    <hr>
+                                <% } else { %>
+                                    <% for (var i = filteredRecipes.length-1; i >= 0 ; i--) { %>
+                                        <div class="post-preview">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <a href="/recipe/<%= filteredRecipes[i].id %>">
+                                                        <img src="<%= filteredRecipes[i].image %>" class="img-fluid" alt="Recipe Image">
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <a href="/recipe/<%= filteredRecipes[i].id %>">
+                                                        <h2 class="post-title">
+                                                            <%= filteredRecipes[i].name %> 
+                                                        </h2>
+                                                        <h6 class="post-subtitle" style="font-weight:200;">
+                                                            <%= filteredRecipes[i].description.substring(0,150) + '...' %>
+                                                        </h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    <% } %>
+                                <% } %>
+                                
                             </div>
-                            <div class="col-md-8">
-                                <a href="/recipe/<%=filteredRecipes[i].id %>">
-                                    <h2 class="post-title">
-                                        <%= filteredRecipes[i].name %> 
-                                    </h2>
-                                    <h6 class="post-subtitle" style="font-weight:200;">
-                                        <%= filteredRecipes[i].description %>
-                                    </h6>
-                                </a>
-                            </div>
-                        </div>
                     </div>
-                    <hr>
-                    <% } %>
+                    </div>
+                
                </div>
+               
             
     </body>
     <%- include('layouts/footer'); -%>
     <%- include('layouts/scripts'); -%>
 </html>
+<script>
+    function setSearchType(type) {
+      document.getElementById('searchType').value = type;
+      document.getElementById('searchForm').submit();
+  }
+  
+  function setTime(time) {
+      document.getElementById('timeFilter').value = time;
+      
+  }
+  function setNumber(number) {
+    document.getElementById('numberFilter').value = number;
+  }
+      // Khai báo biến xử lý 
+     let timeOption =0;
+     let numberOption = 0;
+      // Xử lý hiển thị filter Khẩu phần
+      let khauphan = document.getElementById('khauphan');
+      let _12 = document.getElementById('1-2');
+      let _36  = document.getElementById('3-6'); 
+       let _6  = document.getElementById('6');
+       let nonumber  = document.getElementById('nonumber');
+  
+       _12.addEventListener("click", function() {
+      khauphan.innerHTML = '1-2 người';
+      numberOption =1 ;
+     
+  });
+  _36.addEventListener("click", function() {
+      khauphan.innerHTML = '3-6 người';
+   numberOption =2;
+  });
+  _6.addEventListener("click", function() {
+      khauphan.innerHTML = '> 6 người';
+     numberOption=3
+  });
+  nonumber.addEventListener("click", function() {
+      khauphan.innerHTML = 'None';
+     numberOption=0;
+  });
+   // Xử lý hiển thị thời gian
+   let time= document.getElementById('time');
+  let quick= document.getElementById('quick');
+  let medium= document.getElementById('medium');
+  let long= document.getElementById('long');
+  let notime= document.getElementById('notime');
+  quick.addEventListener("click", function() {
+      time.innerHTML = 'Nhanh (0-15 phút)';
+     timeOption=1;
+  });
+  medium.addEventListener("click", function() {
+      time.innerHTML = 'Vừa (15-45 phút)';
+      timeOption = 2; 
+  });
+  long.addEventListener("click", function() {
+      time.innerHTML = 'Lâu (Hơn 45 phút)';
+     timeOption=3;
+  });
+  notime.addEventListener("click", function() {
+      time.innerHTML = 'None';
+     timeOption=0;
+  });
+  </script>
